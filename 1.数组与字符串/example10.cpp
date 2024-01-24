@@ -1,6 +1,6 @@
 // -*- coding: utf-8 -*-
 // @Author  	: quanchenliu
-// @Time	   	: 2024/1/22
+// @Time	   	: 2024/1/23
 // @Function	: 字符串模式匹配（暴力解）
 
 #include <iostream>
@@ -22,7 +22,10 @@ public:
                 break;
             }
         }
-        return i+1;
+        if(j == t.size())
+            return i;
+        else        
+            return -1;
     }    
 };
 
