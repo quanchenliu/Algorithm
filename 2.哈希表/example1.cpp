@@ -10,9 +10,9 @@ using namespace std;
 class MyHashSet {
 private:
     static const int size = 1000;
-    vector<vector<int>> hashSet;
+    vector<vector<int> > hashSet;
 
-    int hashFunction(int key) {         // 哈希函数，决定 key 在哈希表中的位置
+    int hashFunction(int key) {         // 除留余数法构造哈希函数
         return key % size;
     }
 
