@@ -8,62 +8,50 @@
 
 using namespace std;
 
-void Fuzhi(int k, int i, int j, vector<vector<char>>& kuang, char a, char b){
-    if(k%2 == 0){           
-        kuang[i][j] = b;
+void diekuang(char pattern, int num, int n, vector<vector<char>>& kuang){
+    int mid = n/2;
+    int temp = mid - num;
+    int i = mid - num;
+    int j = mid - num;
+    for(int k=0;k<2*num;k++,j++){       // 上行
+        kuang[i][j] = pattern;
     }
-    else{                   
-        kuang[i][j] = a;
+    for(int k=0;k<2*num;k++,i++){       // 右列 
+        kuang[i][j] = pattern;
     }
-}
-
-void Pattern(int n, int i, vector<vector<char>>& kuang, char a, char b){
-    if(i<=n/2){                     // 1 ~ n/2 行
-        for(int j=0;j<i;j++){       // 前 i 个元素，交替，与列号相关
-            Fuzhi(j, i, j, kuang, a, b);
-        }
-        for(int j=i;j<n-1-i;j++){   // 中间 n-2i 个元素，一致，与行号相关
-            Fuzhi(i, i, j, kuang, a, b);
-        }
-        for(int j=n-1-i;j<n;j++){   // 后 i 个元素，交替
-            Fuzhi(j, i, j, kuang, a, b);
-        }
+    for(int k=0;k<2*num;k++,j--){       // 下行 
+        kuang[i][j] = pattern;
     }
-    else{                           // 后 n/2 行
-        for(int j=0;j<n;j++){
-            kuang[i][j] = kuang[n/2 - (i-n/2)][j];
-        }
+    for(int k=0;k<2*num;k++,i--){       // 左列 
+        kuang[i][j] = pattern;
     }
 }
 
 int main(){
-    int n;
-    char a,b;
+    int n;                              // 矩阵大小
+    char a,b;                           // a是中心花色字符，b是外筐花色字符
     scanf("%d %c %c", &n, &a, &b);
-    
     vector<vector<char>> kuang(n, vector<char>(n, ' '));
-    for(int i=0;i<n;i++){
-        if(i == 0 || i == n-1){
-            if( (n/2)%2 == 0){
-                for(int j=1;j<n-1;j++){
-                    kuang[i][j] = a;
-                }
-            }
-            else{
-                for(int j=1;j<n-1;j++){
-                    kuang[i][j] = b;
-                }
-            }
+    int mid = n/2;                      // 矩阵中心位置
+    kuang[mid][mid] = a;                // 设置中心位置的字符
+    for(int i=1;i<=mid;i++){             // 一共有 mid 圈，循环 mid 次
+        if(i%2 != 0){
+            diekuang(b, i, n, kuang);
         }
         else{
-            Pattern(n, i, kuang, a, b);
+            diekuang(a, i, n, kuang);
         }
     }
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            cout << kuang[i][j];
+    kuang[0][0] = ' ';
+    kuang[0][n-1] = ' ';
+    kuang[n-1][0] = ' ';
+    kuang[n-1][n-1] = ' ';
+
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            cout<<kuang[i][j];
         }
-        cout << endl;
+        cout<<endl;
     }
 
     return 0;
