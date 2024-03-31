@@ -6,9 +6,12 @@
 
 ​		`vector` 译为向量，但实质上是一个“**变长数组**”。
 
-​		在实际的应用中，使用普通数组通常会遇到溢出的情况，而使用 `vector` 会让问题得到简化。
+​		在实际的应用中，使用普通数组通常会遇到溢出的情况，而使用 `vector` 会让问题得到简化。与此同时， `vector` 常常也用于**以邻接表的方式存储图**，这对于*结点数很多的图*而言是十分友好的（结点数太多不仅无法使用邻接矩阵存储，而且往往会导致指针的使用变得更加复杂）。本文将从四个方面来解析 `vector ` 的使用方法：
 
-​		与此同时， `vector` 常常也用于**以邻接表的方式存储图**，这对于*结点数很多的图*而言是十分友好的（结点数太多不仅无法使用邻接矩阵存储，而且往往会导致指针的使用变得更加复杂）。
+- [ ] 增：push_back、
+- [ ] 删：pop_back、
+- [ ] 查：按数组下标访问、使用**迭代器**访问、查找算法；
+- [ ] 改：
 
 
 
@@ -30,6 +33,7 @@ vector<typename> variable_name;
 
 ```C++
 vector<int> score;						// 使用任意的基本数据类型
+vector<int> array(100);					// 创建一个长为100的数组
 vector<vecotr<int> > name;				// 使用 STL 标准容器，此时定义了一个二维数组
 ```
 
@@ -48,7 +52,7 @@ vector<typename> array[size];			// 定义一个 一维长度固定（为size）�
 
 ​		与访问普通数组的方式一样，通过下标的索引访问 `vector` 数组。如定义一个 `vector` 容器： `vector<int> vi` ，**直接访问 `vi[index]` 即可**访问对应的数据。注意：**`index` 的取值范围 `0 ~ vi.size()-1`**
 
-#### （2）通过迭代器访问：
+#### ==（2）通过迭代器访问：==
 
 ​		迭代器（iterator）可以理解为类似指针的东西，其定义为： `vector<typename>::iterator it;`  这样就定义了一个对应类型的迭代器 `it` ，以下是一个应用示例：
 
@@ -98,81 +102,50 @@ int main(){
 
 ### 2、`push_back` 和 `pop_back` 函数：
 
+- push_back：在数组的末尾插入元素；（元素入栈）
+- pop_back：在数组的末尾删除元素；（元素出栈）
+
 ### 3、`insert` 函数：
+
+```C++
+vector<int>::iterator it = vec.begin()		// 获取首元素地址
+vec.insert(it, 2)							// 在 it 所指向的位置插入一个元素 2, 后面的元素依次后移一位
+```
+
+注意：执行完插入操作之后，迭代器 it 指向未知地址，因此若需要继续使用此迭代器变量，需要**重新赋值**；
 
 ### 4、`clear` 函数：
 
+```C++
+vec1.clear();                    						// 清空所有元素bool
+```
+
 ### 5、`erase` 函数：
+
+```
+
+```
 
 ### 6、`size` 函数：
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## 四、vector对象的操作
-
-​		在这一章节，大部分内容与C语言类似，但我们引入了`std::vector` ，这是一个动态数组容器，它能够在运行时自动调整大小。以下是关于 `std::vector` 的一些基本信息：
-
 ```C++
-#include <vector>
-using namespace std;
-//1、定义和声明
-vector<int> vec1; 				// 声明一个空的 vector，元素类型为 int
-vector<int> vec2(5, 42);        // 包含 5 个元素，每个元素都为 42
-vector<int> vec3 = {1, 2, 3};   // 定义一个数组[1,2,3]
-vector<vector<int>> merged;		// 定义一个二维数组
-vector<vector<int>> rotated(cols, vector<int>(rows));	//定义一个二维数组
-
-//2、访问元素
-int element = vec3[1];           // 访问第二个元素
-int element = merger[i][j];		 // 访问第i行第j列的元素
-
-//3、插入和删除元素
-vec1.push_back(10);      	// 在尾部添加元素，push_back 要求元素可以拷贝
-vec1.emplace_back(10);		// 在尾部添加元素，emplace_back 允许直接在容器中构造元素，通常用于更复杂的元素类型，例如自定义类对象，因为它避免了额外的拷贝开销。
-vec1.pop_back();         	// 删除尾部元素
-
-//4、迭代遍历
-for (int i = 0; i < vec1.size(); ++i) {		// 与C语言的操作相同
-    cout << vec1[i] << ' ';
-}
-
-for (const auto& element : vec1) {			// 引入vector后允许的操作
-    cout << element << ' ';
-}
-
-//5、其他常用操作
-size_t size = vec1.size();       // 返回元素个数
-bool isEmpty = vec1.empty();     // 检查是否为空
-vec1.clear();                    // 清空所有元素
-int rows = matrix.size();								// 计算二维数组的行数
-int cols = (matrix.size() > 0) ? matrix[0].size() : 0;	// 计算二维数组的列数
+vector<int> vec1; 										// 声明一个空的 vector，元素类型为 int
+vector<vector<int>> merged;								// 定义一个二维数组
+size_t size = vec1.size();       						// 返回元素个数
+int rows = merged.size();								// 计算二维数组的行数
+int cols = (merged.size() > 0) ? merged[0].size() : 0;	// 计算二维数组的列数
 ```
 
-以上是 `vector` 的一些基本用法，更多详细信息可以查阅 C++ 的相关文档。
+### 7、`empty` 函数：
 
+```C++
+bool isEmpty = vec1.empty();     						// 检查是否为空
+```
+
+
+
+
+
+## 四、`list` 的常见用法详解
+
+用法完全同 vector。
